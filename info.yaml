@@ -38,10 +38,10 @@ documentation:
     - reset
     - run
     - load
-    - data
-    - none
-    - none
-    - none
+    - data[0]
+    - data[1]
+    - data[2]
+    - data[3]
 # A description of what the outputs do
   outputs:
     - x[0]
