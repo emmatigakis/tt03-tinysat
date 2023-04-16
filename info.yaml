@@ -48,11 +48,10 @@ documentation:
     - x[1]
     - x[2]
     - x[3]
-    - x[4]
-    - x[5]
     - sol
     - done
-
+    - none
+    - none
 # The following fields are optional
   tag:          "test"      # comma separated list of tags: test encryption, experiment, clock, animation, utility, industrial, pwm, fpga, alu, microprocessor, risc, riscv, sensor, signal generator, fft, filter, music, bcd, sound, serial, timer, random number generator, calculator, decoder, counter, puzzle, multiplier, game, oscillator,
   external_hw:  ""      # Describe any external hardware needed

@@ -4,8 +4,8 @@ module tinysat (
   input [7:0] io_in,
   output [7:0] io_out
 );
-  localparam NUM_BITS = 6;
-  localparam LOG2_NUM_CLAUSES = 5;
+  localparam NUM_BITS = 4;
+  localparam LOG2_NUM_CLAUSES = 4;
   localparam MAX_COUNT = (1 << NUM_BITS)-1; 
   localparam NUM_CLAUSES = 1 << LOG2_NUM_CLAUSES;
 
