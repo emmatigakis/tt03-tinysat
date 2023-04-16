@@ -13,7 +13,7 @@ module tb (
     input run,
     input load,
     input signed [4:0] data,
-    output [5:0] x,
+    output [3:0] x,
     output sol,
     output done
    );
@@ -28,7 +28,7 @@ module tb (
     // wire up the inputs and outputs
     wire [7:0] inputs = {data, load, run, rst, clk};
     wire [7:0] outputs;
-    assign {done, sol, x} = outputs;
+    assign {done, sol, x} = outputs[5:0];
 
     // instantiate the DUT
     tinysat tinysat(

@@ -2,7 +2,7 @@ import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, FallingEdge, Timer, ClockCycles
 
-async def test_prod_term(dut, i1, i2, i3, i4, i5, i6, x):
+async def test_prod_term(dut, i1, i2, i3, i4, x):
     dut._log.info("start")
     clock = Clock(dut.clk, 10, units="us")
     cocotb.start_soon(clock.start())
@@ -18,29 +18,25 @@ async def test_prod_term(dut, i1, i2, i3, i4, i5, i6, x):
     dut.load.value = 1
 
     dut._log.info("loading coefficients")
-    for i in range(32):
+    for i in range(16):
         dut.data.value = 0
         await ClockCycles(dut.clk, 1)
-    for i in range(32):
+    for i in range(16):
         if i == 0: 
             dut.data.value = i1
-        elif i == 6:
+        elif i == 4:
             dut.data.value = i2
-        elif i == 12:
+        elif i == 8:
             dut.data.value = i3
-        elif i == 18:
+        elif i == 15:
             dut.data.value = i4
-        elif i == 24:
-            dut.data.value = i5
-        elif i == 31:
-            dut.data.value = i6
         else:
             dut.data.value = 7
         await ClockCycles(dut.clk, 1)
-    for i in range(32):
+    for i in range(16):
         dut.data.value = 0
         await ClockCycles(dut.clk, 1)
-    for i in range(32):
+    for i in range(16):
         dut.data.value = 0
         await ClockCycles(dut.clk, 1)
 
@@ -68,22 +64,22 @@ async def test_trivial_clause(dut, k):
     dut.load.value = 1
 
     dut._log.info("loading coefficients")
-    for i in range(32):
+    for i in range(16):
         dut.data.value = 0
         await ClockCycles(dut.clk, 1)
-    for i in range(32):
+    for i in range(16):
         if i == 0: 
             dut.data.value = k
         else:
             dut.data.value = 7
         await ClockCycles(dut.clk, 1)
-    for i in range(32):
+    for i in range(16):
         if i == 0: 
             dut.data.value = -k
         else:
             dut.data.value = 0
         await ClockCycles(dut.clk, 1)
-    for i in range(32):
+    for i in range(16):
         dut.data.value = 0
         await ClockCycles(dut.clk, 1)
 
@@ -109,22 +105,22 @@ async def test_single_2clause(dut, k1, k2):
     dut.load.value = 1
 
     dut._log.info("loading coefficients")
-    for i in range(32):
+    for i in range(16):
         dut.data.value = 0
         await ClockCycles(dut.clk, 1)
-    for i in range(32):
+    for i in range(16):
         if i == 0: 
             dut.data.value = k1
         else:
             dut.data.value = 7
         await ClockCycles(dut.clk, 1)
-    for i in range(32):
+    for i in range(16):
         if i == 0: 
             dut.data.value = k2
         else:
             dut.data.value = 0
         await ClockCycles(dut.clk, 1)
-    for i in range(32):
+    for i in range(16):
         dut.data.value = 0
         await ClockCycles(dut.clk, 1)
 
@@ -140,28 +136,22 @@ async def test_single_2clause(dut, k1, k2):
 
 @cocotb.test()
 async def test_tinysat1(dut):
-    await test_prod_term(dut,1,2,3,4,5,6, 63)
+    await test_prod_term(dut,1,2,3,4, 15)
 @cocotb.test()
 async def test_tinysat2(dut):
-    await test_prod_term(dut,-1,-2,-3,-4,-5,-6, 0)
+    await test_prod_term(dut,-1,-2,-3,-4, 0)
 @cocotb.test()
 async def test_tinysat3(dut):
-    await test_prod_term(dut,-1,2,3,4,5,6, 62)
+    await test_prod_term(dut,-1,2,3,4, 14)
 @cocotb.test()
 async def test_tinysat4(dut):
-    await test_prod_term(dut,1,-2,3,4,5,6, 61)
+    await test_prod_term(dut,1,-2,3,4, 13)
 @cocotb.test()
 async def test_tinysat5(dut):
-    await test_prod_term(dut,1,2,-3,4,5,6, 59)
+    await test_prod_term(dut,1,2,-3,4, 11)
 @cocotb.test()
 async def test_tinysat6(dut):
-    await test_prod_term(dut,1,2,3,-4,5,6, 55)
-@cocotb.test()
-async def test_tinysat7(dut):
-    await test_prod_term(dut,1,2,3,4,-5,6, 47)
-@cocotb.test()
-async def test_tinysat8(dut):
-    await test_prod_term(dut,1,2,3,4,5,-6, 31)
+    await test_prod_term(dut,1,2,3,-4, 7)
 @cocotb.test()
 async def test_trivial_clause1(dut):
     await test_trivial_clause(dut,1)
@@ -202,18 +192,11 @@ async def test_trivial_clause_6(dut):
 async def test_single_2clause1(dut):
     await test_single_2clause(dut,1,2)
 @cocotb.test()
-async def test_single_2clause1(dut):
+async def test_single_2clause2(dut):
     await test_single_2clause(dut,2,3)
 @cocotb.test()
-async def test_single_2clause1(dut):
+async def test_single_2clause3(dut):
     await test_single_2clause(dut,3,4)
 @cocotb.test()
-async def test_single_2clause1(dut):
-    await test_single_2clause(dut,4,5)
-@cocotb.test()
-async def test_single_2clause1(dut):
-    await test_single_2clause(dut,5,6)
-@cocotb.test()
-async def test_single_2clause1(dut):
-    await test_single_2clause(dut,6,1)
-
+async def test_single_2clause4(dut):
+    await test_single_2clause(dut,4,1)

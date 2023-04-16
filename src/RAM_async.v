@@ -1,7 +1,7 @@
 //I copied this from https://8bitworkshop.com/
 module RAM_async(clk, addr, din, dout, we);
   
-  parameter A = 5; // # of address bits
+  parameter A = 4; // # of address bits
   parameter D = 4;  // # of data bits
   
   input  clk;		// clock
