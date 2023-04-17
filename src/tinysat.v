@@ -20,12 +20,12 @@ module tinysat (
   wire [1:0] idx2;
   wire signed [3:0] lit1;
   wire signed [3:0] lit2;
-  wire signed [3:0] lit3;
-  wire c1, c2, c3;;
+  wire c1, c2;
 
   assign io_out[NUM_BITS-1:0] = x_delayed;
   assign io_out[NUM_BITS] = sol;
   assign io_out[NUM_BITS+1] = done;
+  assign io_out[7:6] = 2'b0;
 
   assign x = bits[LOG2_NUM_CLAUSES+NUM_BITS-1:LOG2_NUM_CLAUSES];
   assign idx = load ? loadreg[LOG2_NUM_CLAUSES-1:0] : bits[LOG2_NUM_CLAUSES-1:0];
@@ -48,12 +48,7 @@ module tinysat (
     .x(x),
     .c(c2)
   );
-  mymux mymux3(
-    .lit(lit3),
-    .x(x),
-    .c(c3)
-  );
-  assign clause = c1 || c2 || c3;
+  assign clause = c1 || c2;
 
   RAM_async ram1(
     .clk(clk),
@@ -69,14 +64,6 @@ module tinysat (
     .din(data),
     .addr(idx),
     .we(load && idx2 == 2)
-  );
-
-  RAM_async ram3(
-    .clk(clk),
-    .dout(lit3),
-    .din(data),
-    .addr(idx),
-    .we(load && idx2 == 3)
   );
 
   //x_delayed
